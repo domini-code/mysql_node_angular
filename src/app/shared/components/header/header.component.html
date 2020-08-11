@@ -1,1 +1,20 @@
-<p>header works!</p>
+{{ isAdmin }} - Role
+<mat-toolbar color="primary">
+  <ng-container *ngIf="!isAdmin; else viewAdmin">
+    <span>My APP</span>
+    <span class="spacer"></span>
+    <div>
+      <a mat-button [routerLink]="'/login'">Login</a>
+      <a mat-button (click)="onLogout()">Logout</a>
+      <a mat-button [routerLink]="'/admin'">Admin</a>
+    </div>
+  </ng-container>
+  <button (click)="isAdmin = !isAdmin">Change</button>
+</mat-toolbar>
+
+<ng-template #viewAdmin>
+  <button mat-icon-button (click)="onToggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="spacer"></span>
+</ng-template>
