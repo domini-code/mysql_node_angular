@@ -11,17 +11,33 @@
             placeholder="Username"
             required
           />
+          <mat-error *ngIf="isValidField('username')">
+            {{ getErrorMessage("username") }}
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input separator">
           <input
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             formControlName="password"
             matInput
             placeholder="Password"
             required
           />
+          <button mat-icon-button matSuffix (click)="hide = !hide">
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="isValidField('password')">
+            {{ getErrorMessage("password") }}
+          </mat-error>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="primary">Login</button>
+        <button
+          [disabled]="loginForm.invalid"
+          type="submit"
+          mat-raised-button
+          color="primary"
+        >
+          Login
+        </button>
       </form>
     </mat-card-content>
   </mat-card>

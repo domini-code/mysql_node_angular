@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '@auth/auth.service';
@@ -10,10 +10,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
+  hide = true;
+  private isValidEmail = /\S+@\S+\.\S+/;
+  private subscription: Subscription = new Subscription();
   loginForm = this.fb.group({
-    username: [''],
-    password: [''],
+    username: [
+      '',
+      [Validators.required, Validators.pattern(this.isValidEmail)],
+    ],
+    password: ['', [Validators.required, Validators.minLength(5)]],
   });
 
   constructor(
@@ -29,6 +34,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin(): void {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     const formValue = this.loginForm.value;
     this.subscription.add(
       this.authSvc.login(formValue).subscribe((res) => {
@@ -36,6 +45,28 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['']);
         }
       })
+    );
+  }
+
+  getErrorMessage(field: string): string {
+    let message;
+    if (this.loginForm.get(field).errors.required) {
+      message = 'You must enter a value.';
+    } else if (this.loginForm.get(field).hasError('pattern')) {
+      message = 'Not a valid email.';
+    } else if (this.loginForm.get(field).hasError('minlength')) {
+      const minLength = this.loginForm.get(field).errors?.minlength
+        .requiredLength;
+      message = `This field must be longer than ${minLength} characters`;
+    }
+
+    return message;
+  }
+
+  isValidField(field: string): boolean {
+    return (
+      (this.loginForm.get(field).touched || this.loginForm.get(field).dirty) &&
+      !this.loginForm.get(field).valid
     );
   }
 }

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CheckLoginGuard } from '@shared/guards/check-login.guard';
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
