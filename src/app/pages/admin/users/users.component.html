@@ -1,5 +1,12 @@
 <div class="table-button-row">
-  <button mat-flat-button color="primary" class="btn-new">Add new</button>
+  <button
+    (click)="onOpenModal()"
+    mat-flat-button
+    color="primary"
+    class="btn-new"
+  >
+    Add new
+  </button>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -25,8 +32,12 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
     <td mat-cell *matCellDef="let element">
       <div class="table-button-row">
-        <button mat-flat-button color="accent">Edit</button>
-        <button mat-flat-button color="warn">Delete</button>
+        <button mat-flat-button color="accent" (click)="onOpenModal(element)">
+          Edit
+        </button>
+        <button mat-flat-button color="warn" (click)="onDelete(element.id)">
+          Delete
+        </button>
       </div>
     </td>
   </ng-container>
