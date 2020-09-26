@@ -1,3 +1,4 @@
+import { UserResponse } from './../models/user.interface';
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -11,9 +12,9 @@ export class CheckLoginGuard implements CanActivate {
   constructor(private authSvc: AuthService) {}
 
   canActivate(): Observable<boolean> {
-    return this.authSvc.isLogged.pipe(
+    return this.authSvc.user$.pipe(
       take(1),
-      map((isLogged: boolean) => !isLogged)
+      map((user: UserResponse) => (!user ? true : false))
     );
   }
 }

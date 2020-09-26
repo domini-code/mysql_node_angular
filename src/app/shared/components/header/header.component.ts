@@ -1,3 +1,4 @@
+import { UserResponse } from './../../models/user.interface';
 import {
   Component,
   OnInit,
@@ -26,13 +27,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authSvc: AuthService) {}
 
   ngOnInit(): void {
-    this.authSvc.isLogged
+    this.authSvc.user$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => (this.isLogged = res));
-
-    this.authSvc.isAdmin$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: Roles) => (this.isAdmin = res));
+      .subscribe((user: UserResponse) => {
+        this.isLogged = true;
+        this.isAdmin = user?.role;
+      });
   }
 
   ngOnDestroy(): void {
