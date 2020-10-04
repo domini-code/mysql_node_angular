@@ -10,7 +10,9 @@ class AuthController {
     const { username, password } = req.body;
 
     if (!(username && password)) {
-      return res.status(400).json({ message: ' Username & Password are required!' });
+      return res
+        .status(400)
+        .json({ message: ' Username & Password are required!' });
     }
 
     const userRepository = getRepository(Users);
@@ -19,17 +21,31 @@ class AuthController {
     try {
       user = await userRepository.findOneOrFail({ where: { username } });
     } catch (e) {
-      return res.status(400).json({ message: ' Username or password incorecct!' });
+      return res
+        .status(400)
+        .json({ message: ' Username or password incorecct!' });
     }
 
     // Check password
     if (!user.checkPassword(password)) {
-      return res.status(400).json({ message: 'Username or Password are incorrect!' });
+      return res
+        .status(400)
+        .json({ message: 'Username or Password are incorrect!' });
     }
 
-    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      config.jwtSecret,
+      { expiresIn: '1h' }
+    );
 
-    res.json({ message: 'OK', token, userId: user.id, role: user.role });
+    res.json({
+      message: 'OK',
+      token,
+      userId: user.id,
+      role: user.role,
+      username: user.username,
+    });
   };
 
   static changePassword = async (req: Request, res: Response) => {
@@ -37,7 +53,9 @@ class AuthController {
     const { oldPassword, newPassword } = req.body;
 
     if (!(oldPassword && newPassword)) {
-      res.status(400).json({ message: 'Old password & new password are required' });
+      res
+        .status(400)
+        .json({ message: 'Old password & new password are required' });
     }
 
     const userRepository = getRepository(Users);
