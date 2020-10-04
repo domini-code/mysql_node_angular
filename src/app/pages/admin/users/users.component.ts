@@ -41,7 +41,7 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
         .delete(userId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res) => {
-          window.alert(res.message);
+          window.alert(res);
         });
     }
   }
