@@ -15,12 +15,17 @@ const helper = new JwtHelperService();
 })
 export class AuthService {
   private user = new BehaviorSubject<UserResponse>(null);
+  private username = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkToken();
   }
   get user$(): Observable<UserResponse> {
     return this.user.asObservable();
+  }
+  
+  get username$(): Observable<string> {
+    return this.username.asObservable();
   }
 
   get userValue(): UserResponse {
@@ -33,6 +38,7 @@ export class AuthService {
         map((user: UserResponse) => {
           this.saveLocalStorage(user);
           this.user.next(user);
+          this.username.next(authData.username);
           return user;
         }),
         catchError((err) => this.handlerError(err))
@@ -42,6 +48,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('user');
     this.user.next(null);
+    this.username.next(null);
     this.router.navigate(['/login']);
   }
 
