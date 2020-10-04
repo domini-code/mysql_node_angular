@@ -5,7 +5,7 @@ export interface User {
   password: string;
 }
 
-export interface UserResponse {
+export interface UserResponse extends User {
   message: string;
   token: string;
   userId: number;
