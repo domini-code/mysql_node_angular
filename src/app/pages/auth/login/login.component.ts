@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private authSvc: AuthService,
     private router: Router,
-    private loginForm: BaseFormUser
+    public loginForm: BaseFormUser
   ) {}
 
   ngOnInit(): void {
