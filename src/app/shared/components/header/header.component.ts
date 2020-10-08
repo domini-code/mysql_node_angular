@@ -30,8 +30,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authSvc.user$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: UserResponse) => {
-        this.isLogged = true;
         this.isAdmin = user?.role;
+        if(this.isAdmin){
+          this.isLogged = true;
+        }
       });
   }
 
@@ -45,6 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
+    this.isLogged = false;
     this.authSvc.logout();
   }
 }
