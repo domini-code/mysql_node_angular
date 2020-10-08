@@ -16,6 +16,8 @@ const helper = new JwtHelperService();
 export class AuthService {
   private user = new BehaviorSubject<UserResponse>(null);
 
+  isLogged;
+
   constructor(private http: HttpClient, private router: Router) {
     this.checkToken();
   }

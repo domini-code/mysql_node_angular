@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { UtilsService } from './../../services/utils.service';
 import { UserResponse } from './../../models/user.interface';
 import {
   Component,
@@ -17,14 +19,15 @@ import { Roles } from '@app/shared/models/user.interface';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+
   isAdmin = null;
-  isLogged = false;
+  isLogged;
 
   private destroy$ = new Subject<any>();
 
   @Output() toggleSidenav = new EventEmitter<void>();
 
-  constructor(private authSvc: AuthService) {}
+  constructor(public authSvc: AuthService, private utilsSvc : UtilsService, private route: Router) {}
 
   ngOnInit(): void {
     this.authSvc.user$
@@ -33,6 +36,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isAdmin = user?.role;
         if(this.isAdmin){
           this.isLogged = true;
+        }else{
+          this.isLogged = false;
         }
       });
   }
@@ -47,7 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.isLogged = false;
     this.authSvc.logout();
+    this.utilsSvc.openSidebar(false);
+    this.route.navigate(['/login']);
   }
 }

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UtilsService } from './../../services/utils.service';
 import { AuthService } from '@auth/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -8,12 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  constructor(private authSvc: AuthService, private utilsSvc: UtilsService) {}
+
+
+  constructor(private authSvc: AuthService, private utilsSvc: UtilsService, private route : Router) {}
 
   ngOnInit(): void {}
 
   onExit(): void {
     this.authSvc.logout();
     this.utilsSvc.openSidebar(false);
+    this.route.navigate(['/login']);
   }
 }
