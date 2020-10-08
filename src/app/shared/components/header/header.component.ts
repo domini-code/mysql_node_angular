@@ -34,11 +34,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: UserResponse) => {
         this.isAdmin = user?.role;
-        if(this.isAdmin){
-          this.isLogged = true;
-        }else{
-          this.isLogged = false;
-        }
+        
+        this.isLogged = this.isAdmin?true : false;
       });
   }
 
