@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loginForm.baseForm.reset();
     this.loginForm.baseForm.get('role').setValidators(null);
     this.loginForm.baseForm.get('role').updateValueAndValidity();
   }

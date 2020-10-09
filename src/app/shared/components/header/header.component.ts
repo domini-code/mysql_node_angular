@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { UtilsService } from './../../services/utils.service';
 import { UserResponse } from './../../models/user.interface';
 import {
   Component,
@@ -24,27 +26,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Output() toggleSidenav = new EventEmitter<void>();
 
-  constructor(private authSvc: AuthService) {}
+  constructor(
+    private authSvc: AuthService, 
+    private utilsSvc : UtilsService,
+    private route : Router
+  ) {}
 
   ngOnInit(): void {
     this.authSvc.user$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: UserResponse) => {
-        this.isLogged = true;
+
         this.isAdmin = user?.role;
+        this.isLogged = this.isAdmin?true : false;
       });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next({});
     this.destroy$.complete();
+    this.route.navigate(['/login']);
   }
-
+  
   onToggleSidenav(): void {
     this.toggleSidenav.emit();
   }
-
+  
   onLogout(): void {
     this.authSvc.logout();
+    this.utilsSvc.openSidebar(false);
   }
 }
