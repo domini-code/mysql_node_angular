@@ -12,6 +12,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './../components/modal/modal.component';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -37,22 +39,41 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   
   onDelete(userId: number): void {
-    if (window.confirm('Do you really want remove this user ?')) {
-      this.userSvc
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userSvc
         .delete(userId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res) => {
-          window.alert('User DELETED !');
+          if (res){
+            Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          }
           // Update result after deleting the user.
           this.userSvc.getAll().subscribe((users) => {
             this.dataSource.data = users;
           });
         });
-    }
+
+      }
+    })
+    
   }
 
   onOpenModal(user = {}): void {
-    console.log('User->', user);
+    console.log('User ->', user);
     let dialogRef = this.dialog.open(ModalComponent, {
       height: '400px',
       width: '600px',
