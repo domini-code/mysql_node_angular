@@ -12,10 +12,8 @@
 
 <ng-template #viewLogout>
   <div *ngIf="(authSvc.user$ | async) as user">
-    <h1 *ngIf="(authSvc.user$ | async) as user">
-      Welcome
-    </h1>
-    <span>, {{ user?.username || 'User' }}.</span>
+    <span>Welcome, </span>
+    <a mat-button>{{ user?.username || 'User' }}.</a>
   </div>
   <a mat-button (click)="onLogout()">Logout</a>
 </ng-template>
