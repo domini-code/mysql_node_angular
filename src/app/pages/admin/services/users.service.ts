@@ -25,8 +25,8 @@ export class UsersService {
 
   new(user: User): Observable<User> {
     return this.http
-      .post<User>(`${environment.API_URL}/users`, user)
-      .pipe(catchError(this.handlerError));
+      .post<User>(`${environment.API_URL}/users/`, user)
+      .pipe(catchError(this.handlerError));  // The new user is created but, because it returns error? 
   }
 
   update(userId: number, user: User): Observable<User> {
@@ -44,7 +44,7 @@ export class UsersService {
   handlerError(error): Observable<never> {
     let errorMessage = 'Error unknown';
     if (error) {
-      errorMessage = `Error ${error.message}`;
+      errorMessage = `Error ::: ${error.message}`;
     }
     window.alert(errorMessage);
     return throwError(errorMessage);

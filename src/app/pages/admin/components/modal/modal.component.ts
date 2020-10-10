@@ -25,7 +25,7 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userForm.baseForm.reset();
+    this.userForm.baseForm.reset(); // Clear Form , left the inputs loaded
     
     if (this.data?.user.hasOwnProperty('id')) {
       this.actionTODO = Action.EDIT;
@@ -38,7 +38,9 @@ export class ModalComponent implements OnInit {
   }
 
   onSave(): void {
+
     const formValue = this.userForm.baseForm.value;
+    
     if (this.actionTODO === Action.NEW) {
       this.userSvc.new(formValue).subscribe((res) => {
         console.log('New ', res);
