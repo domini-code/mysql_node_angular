@@ -51,25 +51,22 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed) {
         this.userSvc
-        .delete(userId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((res) => {
-          if (res){
+          .delete(userId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((res) => {
+            console.log("Del ->", res)
+            // Update result after deleting the user.
+            this.userSvc.getAll().subscribe((users) => {
+              this.dataSource.data = users;
+            });
             Swal.fire(
               'Deleted!',
               'Your file has been deleted.',
               'success',
             )
-          }
-          // Update result after deleting the user.
-          this.userSvc.getAll().subscribe((users) => {
-            this.dataSource.data = users;
-          });
         });
-
       }
-    })
-    
+    });    
   }
 
   onOpenModal(user = {}): void {
