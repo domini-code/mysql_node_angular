@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authSvc: AuthService, 
     private utilsSvc : UtilsService,
-    private route : Router
+    private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next({});
     this.destroy$.complete();
-    this.route.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
   
   onToggleSidenav(): void {
