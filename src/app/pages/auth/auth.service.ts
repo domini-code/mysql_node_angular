@@ -1,3 +1,4 @@
+import { UtilsService } from './../../shared/services/utils.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
@@ -14,9 +15,16 @@ const helper = new JwtHelperService();
   providedIn: 'root',
 })
 export class AuthService {
+
   private user = new BehaviorSubject<UserResponse>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+
+    private http: HttpClient, 
+    private router: Router,
+    private utilsSvc: UtilsService 
+
+  ) {
     this.checkToken();
   }
   get user$(): Observable<UserResponse> {
@@ -40,12 +48,17 @@ export class AuthService {
   }
 
   logout(): void {
+
     localStorage.removeItem('user');
     this.user.next(null);
+
+    this.utilsSvc.openSidebar(false);
     this.router.navigate(['/login']);
+
   }
 
   private checkToken(): void {
+    
     const user = JSON.parse(localStorage.getItem('user')) || null;
 
     if (user) {
@@ -56,6 +69,7 @@ export class AuthService {
       } else {
         this.user.next(user);
       }
+ 
     }
   }
 

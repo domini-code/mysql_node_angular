@@ -35,8 +35,9 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+  
   onDelete(userId: number): void {
-    if (window.confirm('Do you really want remove this user')) {
+    if (window.confirm('Do you really want remove this user ?')) {
       this.userSvc
         .delete(userId)
         .pipe(takeUntil(this.destroy$))
