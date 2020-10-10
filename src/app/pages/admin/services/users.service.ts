@@ -46,7 +46,7 @@ export class UsersService {
     if (error) {
       errorMessage = `Error ::: ${error.message}`;
     }
-    window.alert(errorMessage);
+    //////window.alert(errorMessage);   /// Devuelve un Error !
     return throwError(errorMessage);
   }
 }

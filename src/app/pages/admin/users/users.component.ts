@@ -58,7 +58,7 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
             Swal.fire(
               'Deleted!',
               'Your file has been deleted.',
-              'success'
+              'success',
             )
           }
           // Update result after deleting the user.

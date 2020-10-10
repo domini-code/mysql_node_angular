@@ -60,12 +60,12 @@ export class ModalComponent implements OnInit {
         console.log('Update ->', res);
       });
       this.msj = "UPDATED USER !";
-      
+
     }
 
     if (this.msj != null){
       Swal.fire({
-        position: 'center',
+        position: 'top',
         icon: 'success',
         title: this.msj,
         showConfirmButton: false,
