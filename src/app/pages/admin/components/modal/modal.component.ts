@@ -32,32 +32,29 @@ export class ModalComponent implements OnInit {
     this.userForm.baseForm.reset(); // Clear Form , left the inputs loaded
     
     if (this.data?.user.hasOwnProperty('id')) {
+
       this.actionTODO = Action.EDIT;
       this.showPasswordField = false;
       this.userForm.baseForm.get('password').setValidators(null);
       this.userForm.baseForm.updateValueAndValidity();
       this.data.title = 'Edit user';
       this.pathFormData();
+
     }
   }
 
   onSave(): void {
    
-    const formValue = this.userForm.baseForm.value;
-    
-    if (this.actionTODO === Action.NEW) {
-      this.userSvc.new(formValue).subscribe((res) => {
-          console.log('New ->', res['message']),
-          this.swal(res['message'])
-          //this.swal('CREATED USER !')
-        });
-      } else {
-        
-        const userId = this.data?.user?.id;
-        const data = this.userSvc.update(userId, formValue).subscribe( (res) => {
-          console.log('Update ->', res['message']),
-          this.swal(res['message'])
-      });
+    const formValue = this.userForm.baseForm.value;  
+    if ( this.actionTODO === Action.NEW ) {
+      this.userSvc.new(formValue).subscribe((res) =>
+        this.swal(res['message'])
+      );
+    }else{    
+      const userId = this.data?.user?.id;
+      this.userSvc.update(userId, formValue).subscribe( (res) =>
+        this.swal(res['message'])
+      );
     }
   }
 
@@ -67,7 +64,7 @@ export class ModalComponent implements OnInit {
       icon: 'success',
       title: title,
       showConfirmButton: false,
-      timer: 1000
+      timer: 1500
     })
   }
 

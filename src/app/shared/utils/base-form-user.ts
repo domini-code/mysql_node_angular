@@ -13,8 +13,14 @@ export class BaseFormUser {
       '',
       [Validators.required, Validators.pattern(this.isValidEmail)],
     ],
-    password: ['', [Validators.required, Validators.minLength(5)]],
-    role: ['', [Validators.required]],
+    password: [
+      '', 
+      [Validators.required, Validators.minLength(5)]
+    ],
+    role: [
+      '', 
+      [Validators.required]
+    ],
   });
 
   isValidField(field: string): boolean {
