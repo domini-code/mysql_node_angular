@@ -9,6 +9,11 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
+    path: 'home',
+    loadChildren: () =>
+      import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
     path: 'notFound',
     loadChildren: () =>
       import('./pages/not-found/not-found.module').then(
