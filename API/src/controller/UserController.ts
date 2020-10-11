@@ -57,7 +57,8 @@ export class UserController {
       return res.status(409).json({ message: 'Username already exist' });
     }
     // All ok
-    res.send('User created');
+    //res.send('User created');
+    res.status(201).json({ message : 'User Created !'});
   };
 
   static edit = async (req: Request, res: Response) => {
@@ -88,7 +89,7 @@ export class UserController {
       return res.status(409).json({ message: 'Username already in use' });
     }
 
-    res.status(201).json({ message: 'User update' });
+    res.status(201).json({ message: 'User update !' });
   };
 
   static delete = async (req: Request, res: Response) => {

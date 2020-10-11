@@ -20,8 +20,7 @@ export class ModalComponent implements OnInit {
   actionTODO = Action.NEW;
   showPasswordField = true;
   hide = true;
-  msj = null;
-
+ 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public userForm: BaseFormUser,
@@ -47,32 +46,29 @@ export class ModalComponent implements OnInit {
     const formValue = this.userForm.baseForm.value;
     
     if (this.actionTODO === Action.NEW) {
-
       this.userSvc.new(formValue).subscribe((res) => {
-        console.log('New ->', res);
+          console.log('New ->', res['message']),
+          ///this.swal(res['message'])
+          this.swal('CREATED USER !')
+        });
+      } else {
+        
+        const userId = this.data?.user?.id;
+        const data = this.userSvc.update(userId, formValue).subscribe( (res) => {
+          console.log('Update ->', res['message']),
+          this.swal(res['message'])
       });
-      this.msj = "NEW USER CREATED !";
-
-    } else {
-
-      const userId = this.data?.user?.id;
-      const res = this.userSvc.update(userId, formValue).subscribe((res) => {
-        console.log('Update ->', res);
-      });
-      this.msj = "UPDATED USER !";
-
     }
+  }
 
-    if (this.msj != null){
-      Swal.fire({
-        position: 'top',
-        icon: 'success',
-        title: this.msj,
-        showConfirmButton: false,
-        timer: 1000
-      })
-    }
-
+  swal(title: string){
+    Swal.fire({
+      position: 'top',
+      icon: 'success',
+      title: title,
+      showConfirmButton: false,
+      timer: 1000
+    })
   }
 
   checkField(field: string): boolean {
