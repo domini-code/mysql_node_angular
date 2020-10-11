@@ -48,8 +48,8 @@ export class ModalComponent implements OnInit {
     if (this.actionTODO === Action.NEW) {
       this.userSvc.new(formValue).subscribe((res) => {
           console.log('New ->', res['message']),
-          ///this.swal(res['message'])
-          this.swal('CREATED USER !')
+          this.swal(res['message'])
+          //this.swal('CREATED USER !')
         });
       } else {
         
