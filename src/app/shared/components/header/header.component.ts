@@ -27,25 +27,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Output() toggleSidenav = new EventEmitter<void>();
 
-<<<<<<< HEAD
+
   constructor(
     private authSvc: AuthService, 
     private utilsSvc : UtilsService,
     private router : Router
   ) {}
-=======
-  constructor(public authSvc: AuthService, private utilsSvc : UtilsService, private route: Router) {}
->>>>>>> master
+
 
   ngOnInit(): void {
     this.authSvc.user$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: UserResponse) => {
         this.isAdmin = user?.role;
-<<<<<<< HEAD
-=======
-        
->>>>>>> master
         this.isLogged = this.isAdmin?true : false;
       });
   }
@@ -63,6 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout(): void {
     this.authSvc.logout();
     this.utilsSvc.openSidebar(false);
-    this.route.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
 }

@@ -10,24 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-<<<<<<< HEAD
   constructor(
     private authSvc: AuthService, 
-    private utilsSvc: UtilsService, 
+    private utilsSvc: UtilsService,
+    private router: Router
   ) {}
-=======
-
-  constructor(private authSvc: AuthService, private utilsSvc: UtilsService, private route : Router) {}
->>>>>>> master
 
   ngOnInit(): void {}
 
   onExit(): void {
     this.authSvc.logout();
-<<<<<<< HEAD
-=======
     this.utilsSvc.openSidebar(false);
-    this.route.navigate(['/login']);
->>>>>>> master
+    this.router.navigate(['/login']);
   }
 }
