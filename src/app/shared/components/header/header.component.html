@@ -13,8 +13,14 @@
 <ng-template #viewLogout>
   <div *ngIf="(authSvc.user$ | async) as user">
     <span>Welcome, </span>
+<<<<<<< HEAD
     <!-- Este Link  es para que el Suscriptor o El Admin pudan editar sus Cuentas -->
     <a mat-button>{{ user?.username || 'User' }}</a>
+=======
+    <a mat-button>
+      {{ user?.username || 'User' }}.
+    </a>
+>>>>>>> master
   </div>
   <a mat-button (click)="onLogout()">Logout</a>
 </ng-template>
