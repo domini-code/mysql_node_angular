@@ -26,7 +26,7 @@ export class UsersService {
   new(user: User): Observable<User> {
     return this.http
       .post<User>(`${environment.API_URL}/users/`, user)
-      .pipe(catchError(this.handlerError));  // The new user is created but, because it returns error? 
+      .pipe(catchError(this.handlerError));
   }
 
   update(userId: number, user: User): Observable<User> {
