@@ -57,7 +57,7 @@ export class UserController {
       return res.status(409).json({ message: 'Username already exist' });
     }
     // All ok
-    //res.send('User created');
+    //res.send('User created');  this line change by line 61.
     res.status(201).json({ message : 'User Created !'});
   };
 

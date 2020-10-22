@@ -19,18 +19,21 @@ import { Roles } from '@app/shared/models/user.interface';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+
   isAdmin = null;
-  isLogged = false;
+  isLogged;
 
   private destroy$ = new Subject<any>();
 
   @Output() toggleSidenav = new EventEmitter<void>();
+
 
   constructor(
     private authSvc: AuthService, 
     private utilsSvc : UtilsService,
     private router : Router
   ) {}
+
 
   ngOnInit(): void {
     this.authSvc.user$
@@ -53,5 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   onLogout(): void {
     this.authSvc.logout();
+    this.utilsSvc.openSidebar(false);
+    this.router.navigate(['/login']);
   }
 }

@@ -12,12 +12,15 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private authSvc: AuthService, 
-    private utilsSvc: UtilsService, 
+    private utilsSvc: UtilsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
 
   onExit(): void {
     this.authSvc.logout();
+    this.utilsSvc.openSidebar(false);
+    this.router.navigate(['/login']);
   }
 }
