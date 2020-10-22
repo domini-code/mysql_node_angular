@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 
-import { UserResponse, User, Roles } from '@shared/models/user.interface';
+import { UserResponse, User } from '@shared/models/user.interface';
 import { catchError, map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
