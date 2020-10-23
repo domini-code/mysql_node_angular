@@ -42,17 +42,28 @@ export class UsersComponent implements AfterViewInit, OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe((res) => {
           window.alert(res);
+          // Update result after deleting the user.
+          this.userSvc.getAll().subscribe((users) => {
+            this.dataSource.data = users;
+          });
         });
     }
   }
 
   onOpenModal(user = {}): void {
     console.log('User->', user);
-    this.dialog.open(ModalComponent, {
+    let dialogRef = this.dialog.open(ModalComponent, {
       height: '400px',
       width: '600px',
       hasBackdrop: false,
       data: { title: 'New user', user },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`, typeof result);
+      // Update result after adding new user.
+      this.userSvc.getAll().subscribe((users) => {
+        this.dataSource.data = users;
+      });
     });
   }
 
