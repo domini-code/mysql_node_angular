@@ -34,6 +34,7 @@ export class AuthService {
   get userValue(): UserResponse {
     return this.user.getValue();
   }
+  
   login(authData: User): Observable<UserResponse | void> {
     return this.http
       .post<UserResponse>(`${environment.API_URL}/auth/login`, authData)
