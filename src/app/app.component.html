@@ -1,6 +1,13 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-toolbar color="primary">
+      <span>
+        <button mat-icon-button (click)="closeMenu()">
+          <mat-icon>close</mat-icon>
+        </button>&nbsp;
+      </span>
+      Menu 
+    </mat-toolbar>
     <app-sidebar></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
