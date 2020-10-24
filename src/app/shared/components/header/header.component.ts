@@ -11,7 +11,6 @@ import {
 import { Subject } from 'rxjs';
 import { AuthService } from '@auth/auth.service';
 import { takeUntil } from 'rxjs/operators';
-import { Roles } from '@app/shared/models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -21,19 +20,18 @@ import { Roles } from '@app/shared/models/user.interface';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   isAdmin = null;
-  isLogged;
-
+  isLogged: boolean;
+  isMenu: boolean;
+  
   private destroy$ = new Subject<any>();
-
+  
   @Output() toggleSidenav = new EventEmitter<void>();
-
-
+  
   constructor(
     private authSvc: AuthService, 
     private utilsSvc : UtilsService,
     private router : Router
   ) {}
-
 
   ngOnInit(): void {
     this.authSvc.user$
@@ -51,7 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   
   onToggleSidenav(): void {
-    this.toggleSidenav.emit();
+    //this.toggleSidenav.emit();
+
+    /// Aca el boton de menu tendria que no mostrarse, y volver a mostrarse al cerrar el sidebar.
+    this.utilsSvc.openSidebar(true);
+    //this.isMenu = this.isMenu?false : true;
   }
   
   onLogout(): void {

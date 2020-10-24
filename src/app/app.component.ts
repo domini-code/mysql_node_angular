@@ -10,15 +10,23 @@ import { Subject } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   opened = false;
-  private destroy$ = new Subject<any>();
 
+  private destroy$ = new Subject<any>();
+  
   constructor(private utilsSvc: UtilsService) {}
+
+  closeMenu(): void{
+    this.utilsSvc.openSidebar(false);
+  }
+
 
   ngOnInit(): void {
     this.utilsSvc.sidebarOpened$
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: boolean) => (this.opened = res));
   }
+
+ 
 
   ngOnDestroy(): void {
     this.destroy$.next({});
