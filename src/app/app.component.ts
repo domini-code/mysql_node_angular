@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { UtilsService } from './shared/services/utils.service';
+import { UtilsService } from '@shared/services/utils.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -13,10 +14,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<any>();
   
-  constructor(private utilsSvc: UtilsService) {}
+  constructor(private utilsSvc: UtilsService, private router: Router) {}
 
   closeMenu(): void{
     this.utilsSvc.openSidebar(false);
+    this.router.navigate(['/home']);
   }
 
 

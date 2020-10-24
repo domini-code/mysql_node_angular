@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { UtilsService } from './../../services/utils.service';
-import { UserResponse } from './../../models/user.interface';
+import { UtilsService } from '@shared/services/utils.service';
+import { UserResponse } from '@shared/models/user.interface';
 import {
   Component,
   OnInit,
