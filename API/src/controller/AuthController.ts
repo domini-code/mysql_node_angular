@@ -67,5 +67,88 @@ class AuthController {
 
     res.json({ message: 'Password change!' });
   };
+
+  static forgotPassword = async (req: Request, res: Response) =>{
+    const [ username ] = req.body;
+    if (!(username)){
+      return res.status(400).json({ message: "Username is requiered !"});
+    }
+
+    const message = "Check your email for link to reset your password.";
+    let verificationLink;
+    let emailStatus = "OK";
+
+    const userRepository = getRepository(Users);
+    let user: Users;
+
+    try {
+      user = await userRepository.findOneOrFail({ where: {username}});
+      const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretReset, { expiresIn: '10m'});
+      verificationLink = `http://localhost:3000/new-password/${token}`;
+      user.resetToken = token;
+    } catch (error) {
+      return res.json({ message });
+    }
+
+    // TODO : 
+    try {
+      
+    } catch (error) {
+      emailStatus = error;
+      return res.status(400).json({ message: error });
+    }
+
+
+    try {
+      await userRepository.save(user);
+
+    } catch (error) {
+      emailStatus = error;
+      return res.status(400).json({ message: error });
+      
+    }
+
+    res.json({message, info: emailStatus, test: verificationLink})
+  }
+
+  static createNewPassowrd = async (req: Request, res: Response) =>{
+
+    const { newPassword } = req.body;
+    const resetToken = req.headers.reset as string;
+
+    if (!(resetToken && newPassword)) {
+      res.status(400).json({ message: 'All the fields are required'});
+    }
+
+    const userRespository = getRepository(Users);
+    let jwtPayload;
+    let user: Users;
+
+    try {
+      jwtPayload = jwt.verify(resetToken, config.jwtSecretReset);
+      user = await userRespository.findOneOrFail({ where: { resetToken }})
+    } catch (error) {
+      return res.status(401).json({ message: error });
+    }
+
+    user.password = newPassword;
+
+    const validtionsOps = { validationError: {target: false, value: false}};
+    const errors = await validate(user, validtionsOps);
+
+    if (errors.length > 0){
+      return res.status(400).json(errors);
+    }
+
+    try {
+      user.hashPassword();
+      await userRespository.save(user);
+    } catch (error) {
+      return res.status(401).json({ message: error });
+    }
+
+    res.json({message: 'Password changed !'});
+
+  }
 }
 export default AuthController;
