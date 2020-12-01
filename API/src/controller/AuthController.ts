@@ -71,7 +71,7 @@ class AuthController {
   };
 
   static forgotPassword = async (req: Request, res: Response) =>{
-    const [ username ] = req.body;
+    const { username } = req.body;
     if (!(username)){
       return res.status(400).json({ message: "Username is requiered !"});
     }
