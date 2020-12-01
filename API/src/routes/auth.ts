@@ -8,7 +8,7 @@ const router = Router();
 router.post('/login', AuthController.login);
 
 // Forgot Password
-router.put('/forgot-passowrd', AuthController.forgotPassword);
+router.put('/forgot-password', AuthController.forgotPassword);
 
 // Create new Password
 router.put('/new-passowrd', AuthController.createNewPassowrd);

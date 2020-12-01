@@ -1,9 +1,11 @@
+import { transporter } from './../config/mailer';
 import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Users } from '../entity/Users';
 import * as jwt from 'jsonwebtoken';
 import config from '../config/config';
 import { validate } from 'class-validator';
+
 
 class AuthController {
   static login = async (req: Request, res: Response) => {
@@ -90,9 +92,21 @@ class AuthController {
       return res.json({ message });
     }
 
-    // TODO : 
+    // TODO :  send email
     try {
-      
+      // send mail with defined transport object
+      await transporter.sendMail({
+        from: '"Forgot Password 👻" <fernando.mastropietro@gmail.com>', // sender address
+        to: user.username, // list of receivers
+        subject: "Forgot Password ✔", // Subject line
+        //text: "Hello world?", // plain text body
+        html: `
+          <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
+          <br><br>
+          <a href="${verificationLink}">${verificationLink}</a>
+        `, // html body
+      });
+
     } catch (error) {
       emailStatus = error;
       return res.status(400).json({ message: error });
