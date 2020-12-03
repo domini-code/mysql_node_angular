@@ -106,12 +106,11 @@ class AuthController {
           <a href='${verificationLink}'>${verificationLink}</a>
         `, // html body
       });
-
+      
     } catch (error) {
       emailStatus = error;
       return res.status(400).json({ message: error });
     }
-
 
     try {
       await userRepository.save(user);
