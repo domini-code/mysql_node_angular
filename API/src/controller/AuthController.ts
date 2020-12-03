@@ -1,9 +1,9 @@
-import { transporter } from './../config/mailer';
 import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Users } from '../entity/Users';
 import * as jwt from 'jsonwebtoken';
 import config from '../config/config';
+import { transporter } from './../config/mailer';
 import { validate } from 'class-validator';
 
 
@@ -86,7 +86,7 @@ class AuthController {
     try {
       user = await userRepository.findOneOrFail({ where: {username}});
       const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretReset, { expiresIn: '10m'});
-      verificationLink = `http://localhost:3000/new-password/${token}`;
+      verificationLink = `http://localhost:4200/new-password/${token}`;
       user.resetToken = token;
     } catch (error) {
       return res.json({ message });
@@ -100,10 +100,10 @@ class AuthController {
         to: user.username, // list of receivers
         subject: "Forgot Password ✔", // Subject line
         //text: "Hello world?", // plain text body
-        html: `
+        html:`
           <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
           <br><br>
-          <a href="${verificationLink}">${verificationLink}</a>
+          <a href='${verificationLink}'>${verificationLink}</a>
         `, // html body
       });
 
