@@ -86,7 +86,7 @@ class AuthController {
     try {
       user = await userRepository.findOneOrFail({ where: {username}});
       const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretReset, { expiresIn: '10m'});
-      verificationLink = `http://localhost:3000/new-password/${token}`;
+      verificationLink = `http://localhost:4200/new-password/${token}`;
       user.resetToken = token;
     } catch (error) {
       return res.json({ message });
