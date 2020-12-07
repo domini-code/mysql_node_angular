@@ -12,7 +12,7 @@ router.get('/', UserController.getAll);
 router.get('/:id', [checkJwt, checkRole(['admin'])], UserController.getById);
 
 // Create a new user
-router.post('/', UserController.new);
+router.post('/', [checkJwt, checkRole(['admin'])], UserController.new);
 
 // Edit user
 router.patch('/:id', [checkJwt, checkRole(['admin'])], UserController.edit);

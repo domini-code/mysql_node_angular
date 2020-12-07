@@ -175,7 +175,7 @@ class AuthController {
 
   static refreshToken = async (req: Request, res: Response) => {
 
-    const refreshToken = req.headers.refresh as string;
+    const refreshToken = req.headers.refresh as string; /// .refresh es la key, que va en el headers de postman
 
     if (!(refreshToken)){
       return res.status(400).json({ message: 'Somenthing goes wrong !'});
