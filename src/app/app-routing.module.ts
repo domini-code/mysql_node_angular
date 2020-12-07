@@ -31,6 +31,11 @@ const routes: Routes = [
       import('./pages/auth/login/login.module').then((m) => m.LoginModule),
     canActivate: [CheckLoginGuard],
   },
+  { 
+    path: 'forgot-password', 
+    loadChildren: () => import('./pages/auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) 
+  },
+
 ];
 
 @NgModule({

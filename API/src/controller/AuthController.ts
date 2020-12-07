@@ -29,9 +29,18 @@ class AuthController {
         return res.status(400).json({ message: 'Username or Password are incorrect!' });
     }
 
-    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '120' });
+    const refreshToken = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretRefresh, { expiresIn: '86400' });
 
-    res.json({ message: 'OK', token, userId: user.id, role: user.role, username: user.username });
+    user.refreshToken = refreshToken;
+
+    try {
+      await userRepository.save(user)
+    } catch (error) {
+      return res.status(400).json({ message: 'Somenthing goes wrong !'});
+    }
+
+    res.json({ message: 'OK', token, refreshToken, role: user.role, username: user.username });
   };
 
   static changePassword = async (req: Request, res: Response) => {
@@ -60,7 +69,7 @@ class AuthController {
     const errors = await validate(user, validationOps);
 
     if (errors.length > 0) {
-      return res.status(400).json(errors);
+      return res.status(400).json({ message: errors});
     }
 
     // Hash password
@@ -89,7 +98,7 @@ class AuthController {
       verificationLink = `http://localhost:4200/new-password/${token}`;
       user.resetToken = token;
     } catch (error) {
-      return res.json({ message });
+      return res.json({ message: error});
     }
 
     // TODO :  send email
@@ -150,7 +159,7 @@ class AuthController {
     const errors = await validate(user, validtionsOps);
 
     if (errors.length > 0){
-      return res.status(400).json(errors);
+      return res.status(400).json({ message: errors});
     }
 
     try {
@@ -163,5 +172,31 @@ class AuthController {
     res.json({message: 'Password changed !'});
 
   }
+
+  static refreshToken = async (req: Request, res: Response) => {
+
+    const refreshToken = req.headers.refresh as string;
+
+    if (!(refreshToken)){
+      return res.status(400).json({ message: 'Somenthing goes wrong !'});
+    }
+
+    const userRepository = getRepository(Users);
+    let user: Users;
+
+    try {
+      const verifyResult = jwt.verify(refreshToken, config.jwtSecretRefresh);
+      const { username } = verifyResult as Users;
+      user = await userRepository.findOneOrFail( { where : { username }});
+    } catch (error) {
+      return res.status(400).json({ message: error});
+    }
+
+    const token = jwt.sign({userId: user.id, username: user.username }, config.jwtSecret, { expiresIn : '86400' });
+    res.json({ message : 'OK', token})
+  }
+
+
+
 }
 export default AuthController;

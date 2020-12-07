@@ -28,6 +28,11 @@ export class Users {
   @IsNotEmpty()
   resetToken: string;
 
+  @Column()
+  @IsOptional()
+  @IsNotEmpty()
+  refreshToken: string;
+
   hashPassword(): void {
     const salt = bcrypt.genSaltSync(10);
     this.password = bcrypt.hashSync(this.password, salt);
