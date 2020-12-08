@@ -2,7 +2,7 @@
 
 import nodemailer = require('nodemailer');
 
-let pass = 'qjxzvryiqqhmgkzj';
+var pass = 'lfxbbtjaesheaorb';
 // create reusable transporter object using the default SMTP transport
 
 export const transporter = nodemailer.createTransport({

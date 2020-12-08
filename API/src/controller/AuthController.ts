@@ -93,7 +93,7 @@ class AuthController {
     let user: Users;
 
     try {
-      user = await userRepository.findOneOrFail({ where: {username}});
+      user = await userRepository.findOneOrFail({ where: {username} });
       const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretReset, { expiresIn: '10m'});
       verificationLink = `http://localhost:4200/new-password/${token}`;
       user.resetToken = token;
@@ -102,24 +102,24 @@ class AuthController {
     }
 
     // TODO :  send email
-    try {
-      // send mail with defined transport object
-      await transporter.sendMail({
-        from: '"Forgot Password 👻" <fernando.mastropietro@gmail.com>', // sender address
-        to: user.username, // list of receivers
-        subject: "Forgot Password ✔", // Subject line
-        //text: "Hello world?", // plain text body
-        html:`
-          <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
-          <br><br>
-          <a href='${verificationLink}'>${verificationLink}</a>
-        `, // html body
-      });
+    // try {
+    //   /// send mail with defined transport object
+    //   await transporter.sendMail({
+    //     from: '"Forgot Password 👻" <fernando.mastropietro@gmail.com>', // sender address
+    //     to: user.username, // list of receivers
+    //     subject: "Forgot Password ✔", // Subject line
+    //      //text: "Hello world?", // plain text body
+    //     html:`
+    //        <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
+    //        <br><br>
+    //         <a href='${verificationLink}'>${verificationLink}</a>
+    //     `, // html body
+    //   });
       
-    } catch (error) {
-      emailStatus = error;
-      return res.status(400).json({ message: error });
-    }
+    // } catch (error) {
+    //   emailStatus = error;
+    //   return res.status(400).json({ message: 'Ocurrio un Error! ',error });
+    // }
 
     try {
       await userRepository.save(user);
