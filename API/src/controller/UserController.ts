@@ -39,6 +39,9 @@ export class UserController {
     user.username = username;
     user.password = password;
     user.role = role;
+    // Se agregaron esto dos campos porque sino da error , no puede ser DEFAULT.
+    user.resetToken = "";
+    user.refreshToken = "";
 
     // Validate
     const validationOpt = { validationError: { target: false, value: false } };
@@ -54,7 +57,7 @@ export class UserController {
       user.hashPassword();
       await userRepository.save(user);
     } catch (e) {
-      return res.status(409).json({ message: 'Username already exist' });
+      return res.status(409).json({ message: 'Username already exist', e });
     }
     // All ok
     //res.send('User created');  this line change by line 61.

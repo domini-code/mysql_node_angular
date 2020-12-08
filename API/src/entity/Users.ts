@@ -25,12 +25,10 @@ export class Users {
 
   @Column()
   @IsOptional()
-  @IsNotEmpty()
   resetToken: string;
 
   @Column()
   @IsOptional()
-  @IsNotEmpty()
   refreshToken: string;
 
   hashPassword(): void {
