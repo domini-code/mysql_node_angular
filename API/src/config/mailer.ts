@@ -1,8 +1,8 @@
-//process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+import { Password, Username } from './gmail';
 import nodemailer = require('nodemailer');
 
-var pass = 'lfxbbtjaesheaorb';
+console.log("Username ==> ",Username," /// Pass==> ",Password);
 // create reusable transporter object using the default SMTP transport
 
 export const transporter = nodemailer.createTransport({
@@ -10,8 +10,8 @@ export const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // false for 587, true for 465, false for other ports
   auth: {
-    user: 'fernando.mastropietro@gmail.com', // generated ethereal user
-    pass: pass, // generated ethereal password  : qeofjyjeuchtxbbd
+    user: Username, // generated ethereal user
+    pass: Password, // generated ethereal password  : qeofjyjeuchtxbbd
   },
 });
   

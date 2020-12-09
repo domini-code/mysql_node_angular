@@ -103,22 +103,22 @@ class AuthController {
 
     // TODO :  send email
     try {
-      // send mail with defined transport object
-      await transporter.sendMail({
-        from: '"Forgot Password 👻" <fernando.mastropietro@gmail.com>', // sender address
-        to: user.username, // list of receivers
-        subject: "Forgot Password ✔", // Subject line
-        //text: "Hello world?", // plain text body
-        html:`
-          <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
-          <br><br>
-          <a href='${verificationLink}'>${verificationLink}</a>
-        `, // html body
-      });
+       // send mail with defined transport object
+       await transporter.sendMail({
+         from: '"Forgot Password 👻" <fernando.mastropietro@gmail.com>', // sender address
+         to: user.username, // list of receivers
+         subject: "Forgot Password ✔", // Subject line
+         text: "Forgot Password :", // plain text body
+         html:`
+           <b>Please click on the follwoing link, or paste this into your browser to complete the process:</b>
+           <br><br>
+           <a href='${verificationLink}'>${verificationLink}</a>
+         `, // html body
+       });
       
     } catch (error) {
-      emailStatus = error;
-      return res.status(400).json({ message: error });
+       emailStatus = error;
+       return res.status(400).json({ message: error });
     }
 
     try {
