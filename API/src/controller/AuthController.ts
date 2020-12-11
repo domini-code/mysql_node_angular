@@ -29,8 +29,8 @@ class AuthController {
         return res.status(400).json({ message: 'Username or Password are incorrect!' });
     }
 
-    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '120' });
-    const refreshToken = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretRefresh, { expiresIn: '86400' });
+    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecretRefresh, { expiresIn: '1h' });
 
     user.refreshToken = refreshToken;
 
@@ -40,8 +40,10 @@ class AuthController {
       return res.status(400).json({ message: 'Somenthing goes wrong !'});
     }
 
-    res.json({ message: 'OK', token, refreshToken, role: user.role, username: user.username });
+    res.json({ message: 'OK', token: refreshToken, role: user.role, username: user.username });
   };
+
+  //// CHANGE PASSWORD
 
   static changePassword = async (req: Request, res: Response) => {
     const { userId } = res.locals.jwtPayload;
@@ -192,7 +194,7 @@ class AuthController {
       return res.status(400).json({ message: error});
     }
 
-    const token = jwt.sign({userId: user.id, username: user.username }, config.jwtSecret, { expiresIn : '86400' });
+    const token = jwt.sign({userId: user.id, username: user.username }, config.jwtSecret, { expiresIn : '1h' });
     res.json({ message : 'OK', token})
   }
 

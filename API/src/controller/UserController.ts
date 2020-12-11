@@ -82,7 +82,7 @@ export class UserController {
     const errors = await validate(user, validationOpt);
 
     if (errors.length > 0) {
-      return res.status(400).json(errors);
+      return res.status(400).json({ message: 'Error de Validación',errors});
     }
 
     // Try to save user

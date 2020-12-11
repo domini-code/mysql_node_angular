@@ -1,8 +1,11 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+import { Users } from './../entity/Users';
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//console.log("NODE => ", process.env.NODE_TLS_REJECT_UNAUTHORIZED);
+
 import { Password, Username } from './gmail';
 import nodemailer = require('nodemailer');
 
-console.log("Username ==> ",Username," /// Pass==> ",Password);
+//console.log("Username ==> ",Username," /// Pass==> ",Password);
 // create reusable transporter object using the default SMTP transport
 
 export const transporter = nodemailer.createTransport({
