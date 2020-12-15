@@ -46,6 +46,7 @@ export class UserController {
     // Validate
     const validationOpt = { validationError: { target: false, value: false } };
     const errors = await validate(user, validationOpt);
+    console.log("error ==> ", errors);
     if (errors.length > 0) {
       return res.status(400).json(errors);
     }
