@@ -42,8 +42,7 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  onSave(): void {
-   
+  onSave(): void {  
     const formValue = this.userForm.baseForm.value;  
     if ( this.actionTODO === Action.NEW ) {
       this.userSvc.new(formValue).subscribe((res) =>
