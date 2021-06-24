@@ -3,6 +3,9 @@
 # Base de Datos
 /API/ormconfig.json
 
+#User and Password de Gmail
+/API/src/config/gmail.ts
+
 # compiled output
 /dist
 /tmp

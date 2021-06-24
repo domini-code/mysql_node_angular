@@ -40,7 +40,7 @@ class AuthController {
       return res.status(400).json({ message: 'Somenthing goes wrong !'});
     }
 
-    res.json({ message: 'OK', token, refreshToken, role: user.role, username: user.username });
+    res.json({ message: 'OK', token: token, role: user.role, username: user.username });
   };
 
   static changePassword = async (req: Request, res: Response) => {

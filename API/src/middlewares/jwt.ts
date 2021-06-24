@@ -7,10 +7,10 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   let jwtPayload;
 
   try {
-    jwtPayload = <any>jwt.verify(token, config.jwtSecret);
+    jwtPayload = <any>jwt.verify(token, config.jwtSecretRefresh);
     res.locals.jwtPayload = jwtPayload;
   } catch (e) {
-    return res.status(401).json({ message: 'Not Authorized.' });
+    return res.status(401).json({ message: 'Not Authorized !!!' });
   }
 
   const { userId, username } = jwtPayload;
